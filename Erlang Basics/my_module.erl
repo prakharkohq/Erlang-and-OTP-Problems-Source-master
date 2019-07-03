@@ -100,21 +100,29 @@ render(Items, Em) ->
 render() ->
   render([{"D&D", "Dungeons and Dragons"}], "b").
 
+%What is this difference? It’s that a tail call is one where there is nothing left for the
+%function to do when that call is done (except return).
 
+
+% Non tail recursive call
 sum(0) -> 0;
 sum(N) -> sum(N - 1) + N.
+%In sum , after the call to sum(N-1) is done, there is still some work left to do before it can return: namely, adding N .
 
-
+% Tail recursive Version  of the code
 do_sum(N) -> do_sum(N, 0).
 
 do_sum(0, Total) -> Total;
 do_sum(N, Total) -> do_sum(N - 1, Total + N).
 
 
+% A tail recursive solution is often more efficient than the corresponding non-tail recur-sive solution, but not always; it depends a lot on what the algorithm does
+
 rev([X | TheRest]) -> rev(TheRest) ++ [X];
 rev([]) -> [].
 
 
+% Avoid using BIF's like loop(List) when length(List) due to linear time of calculation in each of the computations
 reverseList([]) -> emptyListPassed;
 reverseList(List) -> reverseList(List, []).
 reverseList([Head | Tail], Accumulator) -> reverseList(Tail, [Head | Accumulator]);
